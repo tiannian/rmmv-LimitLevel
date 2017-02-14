@@ -39,6 +39,7 @@
     var openItemLimit = parameters['item'] || false;
     
     if(openEquipLimit){
+        console.log("openEquipLimit");
         var testEq = Game_Actor.prototype.changeEquip;
         Game_Actor.prototype.changeEquip = function(slotId, item){
             if(item === null){
@@ -47,7 +48,7 @@
             }else{
                 //检查装备等级
                 var ll = item.meta.LimitLevel || 0;
-                if(ll < this._level){
+                if(ll <= this._level){
                     testEq.call(this,slotId, item);
                 }
             }
@@ -55,12 +56,12 @@
     }
     
     if(openItemLimit){
+        console.log("openItemLimit");
         var testIt = Scene_ItemBase.prototype.useItem;
         Scene_ItemBase.prototype.useItem = function(target){
             var ll = this.item().meta.LimitLevel || 0;
-            if(ll < this._level){
+            if(ll <= this.user()._level){
                 testIt.call(this,target);
-                console.log(ll);
             }
         }
     }
